@@ -1,13 +1,20 @@
 class Receipt {
-  constructor(receiptItems = [], savedTotal = 0, total = 0) {
+  constructor(receiptItems = []) {
+
+    let total = 0;
+    let savedTotal = 0;
+
+    for (const receiptItem of receiptItems) {
+      total += receiptItem.subtotal;
+      savedTotal += receiptItem.saved;
+    }
 
     this.receiptItems = receiptItems;
     this.savedTotal = savedTotal;
     this.total = total;
   }
 
-  buildReceiptText() {
-
+  buildReceiptText(receipt) {
     const formatMoney = (money)=> {
       return money.toFixed(2);
     };
@@ -29,20 +36,6 @@ ${receiptItemsText}
 节省：${formatMoney(this.savedTotal)}(元)
 **********************`;
   }
-
-  static buildReceipt(receiptItems) {
-
-    let total = 0;
-    let savedTotal = 0;
-
-    for (const receiptItem of receiptItems) {
-      total += receiptItem.subtotal;
-      savedTotal += receiptItem.saved;
-    }
-
-    return new Receipt(receiptItems, savedTotal, total);
-  }
-
 }
 
 module.exports = Receipt;
